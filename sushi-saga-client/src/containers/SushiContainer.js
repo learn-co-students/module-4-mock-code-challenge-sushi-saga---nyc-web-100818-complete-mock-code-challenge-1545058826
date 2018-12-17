@@ -1,16 +1,15 @@
 import React, { Fragment } from 'react'
+
+import Sushi from '../components/Sushi'
 import MoreButton from '../components/MoreButton'
 
-const SushiContainer = (props) => {
+const SushiContainer = ({ sushi, onMoreClick, onEat }) => {
+  const sushiItems = sushi.map(s => <Sushi key={s.id} onEat={onEat} sushi={s} />)
   return (
     <Fragment>
       <div className="belt">
-        {
-          /* 
-             Render Sushi components here!
-          */
-        }
-        <MoreButton />
+        {sushiItems}
+        <MoreButton onMoreClick={onMoreClick} />
       </div>
     </Fragment>
   )
