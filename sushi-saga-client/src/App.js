@@ -4,14 +4,76 @@ import Table from './containers/Table';
 
 // Endpoint!
 const API = "http://localhost:3000/sushis"
+const paging = {
+  limit: 4,
+  total: 100,
+  firstPage: 1
+}
+paging.lastPage = (paging.total / paging.limit)
 
 class App extends Component {
+  state = {
+    budget: 100,
+    sushiPage: paging.firstPage,
+    sushi: []
+  }
+
+  componentDidMount() {
+    this.getSushi()
+  }
+
+  getSushi = () => {
+    fetch(`${API}`)
+      .then(r => r.json())
+      .then(sushi => {
+        this.setState({ sushi })
+      })
+  }
+
+  get displaySushi() {
+    const startIndex = (this.state.sushiPage - 1) * paging.limit
+    const endIndex = startIndex + paging.limit
+    return this.state.sushi.slice(startIndex, endIndex)
+  }
+
+  get plates() {
+    return this.state.sushi.filter(s => s.eaten)
+  }
+
+  onMoreClick = () => {
+    const sushiPage = this.state.sushiPage + 1 > paging.lastPage ? paging.firstPage : this.state.sushiPage + 1
+    this.setState({ sushiPage })
+  }
+
+  onPrevClick = () => {
+    const sushiPage = this.state.sushiPage - 1 < paging.firstPage ? paging.lastPage : this.state.sushiPage - 1
+    this.setState({ sushiPage })
+  }
+
+  onEat = (sushi) => {
+    if (sushi.eaten) return
+    
+    if (this.state.budget - sushi.price >= 0) {
+      const newSushi = [...this.state.sushi].map(s => s === sushi ? { ...s, eaten: true } : s)
+      this.setState({
+        sushi: newSushi,
+        budget: this.state.budget - sushi.price
+      })
+    } else {
+      alert('nope, not enough 💵')
+    }
+  }
+
+  onWalletSubmit = moneyToAdd => {
+    const budget = this.state.budget + parseInt(moneyToAdd)
+    this.setState({ budget })
+  }
 
   render() {
     return (
       <div className="app">
-        <SushiContainer  />
-        <Table />
+        <SushiContainer onEat={this.onEat} sushi={this.displaySushi} onMoreClick={this.onMoreClick} onPrevClick={this.onPrevClick} />
+        <Table onWalletSubmit={this.onWalletSubmit} plates={this.plates} budget={this.state.budget} />
       </div>
     );
   }
