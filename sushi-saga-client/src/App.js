@@ -5,6 +5,11 @@ import Table from './containers/Table';
 // Endpoint!
 const API = "http://localhost:3000/sushis"
 
+
+//App component is parent to Table and SushiContainer components - Table and SushiContainer are rendered inside App.js
+
+
+
 class App extends Component {
 
   render() {
