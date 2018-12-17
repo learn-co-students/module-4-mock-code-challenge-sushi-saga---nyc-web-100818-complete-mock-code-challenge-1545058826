@@ -15,9 +15,9 @@ const SushiContainer = (props) => {
           */
          <div>
            <Sushi />
-           <Sushi/>
-           <Sushi/>
-           <Sushi/>
+           <Sushi />
+           <Sushi />
+           <Sushi />
          </div>
         }
         <MoreButton />
