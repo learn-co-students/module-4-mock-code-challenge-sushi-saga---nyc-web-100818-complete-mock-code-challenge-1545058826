@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
 
-const Table = ({budget, plates}) => {
+import SushiWallet from '../components/SushiWallet'
+
+const Table = ({budget, plates, onWalletSubmit}) => {
 
   const renderPlates = (array) => {
     return array.map((x, index) => {
@@ -14,6 +16,7 @@ const Table = ({budget, plates}) => {
         You have: ${budget} remaining!
       </h1>
       <div className="table">
+        <SushiWallet onWalletSubmit={onWalletSubmit} />
         <div className="stack">
           {renderPlates(plates)}
         </div>
