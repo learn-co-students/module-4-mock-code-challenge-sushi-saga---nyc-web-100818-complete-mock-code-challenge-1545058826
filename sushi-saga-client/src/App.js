@@ -38,14 +38,6 @@ class App extends Component {
     }
   }
 
-  // handleMore = (event) => {
-  //   let nextFour = this.state.startIndex + 4
-  //   if (nextFour > this.state.sushis.length) {
-  //     nextFour = 0
-  //   }
-  //   this.setState({ startIndex: nextFour })
-  // }
-
   handleEaten = (id, price) => {
     console.log(id, price);
     if (this.state.budget >= price) {
